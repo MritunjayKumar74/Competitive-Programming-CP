@@ -1,27 +1,23 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        vector<string> lst;
+        unordered_set<char> substrings;
+
         int maxLen = 0;
-        int n = s.length();
+        int left = 0;
 
-        for (int i = 0; i < n; i++) {
-            string w = "";
-            for (int j = i; j < n; j++) {
-                if (w.find(s[j]) == string::npos) {
-                    w += s[j];
-                } else {
-                    break;
-                }
+        for (int right = 0; right < s.length(); right++){
+            while(substrings.count(s[right])){
+                substrings.erase(s[left]);
+                left++;
             }
-            lst.push_back(w);
+
+            substrings.insert(s[right]);
+
+            maxLen = max(maxLen, right - left + 1);
         }
 
-        for (auto &x : lst) {
-            if ((int)x.length() > maxLen) {
-                maxLen = x.length();
-            }
-        }
         return maxLen;
+        
     }
 };
